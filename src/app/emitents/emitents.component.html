@@ -1,0 +1,19 @@
+
+<p>
+  emitents works!
+</p>
+
+<table *ngIf="emitents">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let emitent of emitents">
+      <td>{{ emitent.Id }}</td>
+      <td>{{ emitent.Name }}</td>
+    </tr>
+  </tbody>
+</table>
