@@ -17,5 +17,12 @@ export class EmitentService {
     return this.http.get<Emitent[]>(this.emitentsUrl);
   }
 
+  /** GET emitent by id. Will 404 if id not found */
+  getEmitent(id: number): Observable<Emitent> {
+      const url = `${this.emitentsUrl}/${id}`;
+      
+      return this.http.get<Emitent>(url);
+  }
+
   constructor(private http: HttpClient) { }
 }

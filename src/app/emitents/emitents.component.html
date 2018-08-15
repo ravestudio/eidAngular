@@ -1,19 +1,21 @@
+<h1>Emitent list</h1>
 
-<p>
-  emitents works!
-</p>
+<p *ngIf="!emitents"><em>Loading...</em></p>
 
-<table *ngIf="emitents">
+
+<table class='table' *ngIf="emitents">
   <thead>
     <tr>
       <th>Id</th>
       <th>Name</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let emitent of emitents">
       <td>{{ emitent.Id }}</td>
       <td>{{ emitent.Name }}</td>
+      <td><button type="button" title="Details" (click)="showDetailsClick(emitent);" class="btn btn-primary">Details</button></td>
     </tr>
   </tbody>
 </table>

@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { EmitentsComponent } from './emitents/emitents.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppRoutingModule } from './/app-routing.module';
+import { EmitentDetailComponent } from './emitent-detail/emitent-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EmitentsComponent,
-    DashboardComponent
+    DashboardComponent,
+    EmitentDetailComponent
   ],
   imports: [
     BrowserModule,

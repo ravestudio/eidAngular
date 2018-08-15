@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { EmitentService } from '../emitent.service';
 import { Emitent } from '../emitent';
 
@@ -15,7 +16,13 @@ export class EmitentsComponent implements OnInit {
     .subscribe(emitents => this.emitents = emitents);
   }
 
-  constructor(private emitentService: EmitentService) { }
+  showDetailsClick(emitent: Emitent): void {
+
+    this.router.navigateByUrl("/detail/"+emitent.Id);
+
+  }
+
+  constructor(private router: Router, private emitentService: EmitentService) { }
 
   ngOnInit() {
     this.getEmitents();
