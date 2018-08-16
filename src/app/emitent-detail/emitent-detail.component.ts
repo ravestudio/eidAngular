@@ -4,7 +4,13 @@ import { Location } from '@angular/common';
 import * as CanvasJS from '../../assets/canvasjs.min';
 
 import { Emitent }         from '../emitent';
+import { Financial} from '../financial';
 import { EmitentService }  from '../emitent.service';
+import { FinancialService} from '../financial.service';
+import { pureFunction1 } from '@angular/core/src/render3/pure_function';
+import { promise } from 'protractor';
+import { resolve } from 'path';
+import { reject } from 'q';
 
 @Component({
   selector: 'app-emitent-detail',
@@ -14,13 +20,31 @@ import { EmitentService }  from '../emitent.service';
 export class EmitentDetailComponent implements OnInit {
   @Input() emitent: Emitent;
 
+  financials: Financial[];
+
   constructor(
     private route: ActivatedRoute,
     private emitentService: EmitentService,
+    private financialService : FinancialService,
     private location: Location) { }
 
   ngOnInit() {
-    this.getEmitent();
+
+    var p1 = this.getEmitent().then(emi =>
+      {
+        this.emitent = emi;
+      });
+
+    var p2 = this.getFinancials().then(fins =>
+      {
+        this.financials = fins;
+      });
+
+    Promise.all([p1, p2]).then(values => { 
+        console.log(values); 
+      });
+
+      
 
     let chart = new CanvasJS.Chart("chartContainer", {
       animationEnabled: true,
@@ -48,10 +72,33 @@ export class EmitentDetailComponent implements OnInit {
     chart.render();
   }
 
-  getEmitent(): void {
+  getEmitent(): Promise<Emitent> {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.emitentService.getEmitent(id)
-      .subscribe(emitent => this.emitent = emitent);
+    const promise =
+    new Promise<Emitent>((resolve, reject) => {
+      this.emitentService.getEmitent(id)
+      .subscribe(emitent => resolve(emitent));
+    });
+    return promise;
+  }
+
+  getFinancials(): Promise<Financial[]> {
+    const id = +this.route.snapshot.paramMap.get('id');
+
+    const promise = new Promise<Financial[]>((resolve, reject) =>{
+
+      this.financialService.getFinancials(id)
+      .subscribe(financials => {
+        var temp: Financial[] = financials.sort((f1, f2) =>
+        {
+          return f1.Year - f2.Year;
+        });
+        resolve(temp);
+      });
+    });
+
+    return promise;
+
   }
 
 }

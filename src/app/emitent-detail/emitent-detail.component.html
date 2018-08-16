@@ -4,4 +4,10 @@
   <div>{{emitent.Description}}</div>
 </div>
 
+<div>
+  <ul>
+    <li *ngFor="let financial of financials"><span>{{financial.Year}}</span><span>{{financial.NetIncome}}</span></li>
+  </ul>
+</div>
+
 <div id="chartContainer" style="height: 370px; width: 100%;"></div>
